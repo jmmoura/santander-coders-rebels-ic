@@ -44,6 +44,7 @@ public class App {
 
             System.out.println("Insira S para informar mais um aspirante. Insira qualquer outra letra para encerrar.");
             char addNewAspirant = scanner.next().charAt(0);
+            scanner.nextLine();
 
             wantAddNewAspirant = addNewAspirant == 'S' || addNewAspirant == 's';
         }
