@@ -24,19 +24,14 @@ public class App {
             System.out.println("Informe a idade: ");
             int age = scanner.nextInt();
 
-            System.out.println("Informe a raça: ");
-            for (RaceKind item : RaceKind.values()) {
-                System.out.printf("%d - %s%n", item.ordinal(), item);
-            }
-            int raceKind = scanner.nextInt();
-
-            while (raceKind < 0 || raceKind >= RaceKind.values().length) {
-                System.out.println("Raça inválida!");
+            int raceKind;
+            do {
                 System.out.println("Informe a raça: ");
                 for (RaceKind item : RaceKind.values()) {
                     System.out.printf("%d - %s%n", item.ordinal(), item);
                 }
-            }
+                raceKind = scanner.nextInt();
+            } while (raceKind < 0 || raceKind >= RaceKind.values().length);
 
             Rebel rebel = new Rebel(name, age, RaceKind.values()[raceKind]);
 
