@@ -3,6 +3,8 @@
  */
 package santander.coders.rebels.ic;
 
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
 public class App {
@@ -13,7 +15,9 @@ public class App {
 
         System.out.println("Bem-vindo à Inteligência Central dos Rebeldes!");
         System.out.println("Insira as inforações dos aspirantes a novos Rebeldes.");
-        while (true) {
+
+        boolean wantAddNewAspirant = true;
+        while (wantAddNewAspirant) {
             System.out.println("Informe o nome: ");
             String name = scanner.nextLine();
 
@@ -36,8 +40,20 @@ public class App {
 
             Rebel rebel = new Rebel(name, age, RaceKind.values()[raceKind]);
 
+            ic.addRebel(rebel);
 
+            System.out.println("Insira S para informar mais um aspirante. Insira qualquer outra letra para encerrar.");
+            char addNewAspirant = scanner.next().charAt(0);
 
+            wantAddNewAspirant = addNewAspirant == 'S' || addNewAspirant == 's';
+        }
+
+        try {
+            ic.printRebels();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
     }
