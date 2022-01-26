@@ -25,16 +25,16 @@ public class App {
             int age = scanner.nextInt();
 
             System.out.println("Informe a raça: ");
-            for (RaceKind raceKind : RaceKind.values()) {
-                System.out.printf("%d - %s%n", raceKind.ordinal(), raceKind);
+            for (RaceKind item : RaceKind.values()) {
+                System.out.printf("%d - %s%n", item.ordinal(), item);
             }
             int raceKind = scanner.nextInt();
 
             while (raceKind < 0 || raceKind >= RaceKind.values().length) {
                 System.out.println("Raça inválida!");
                 System.out.println("Informe a raça: ");
-                for (RaceKind raceKind : RaceKind.values()) {
-                    System.out.printf("%d - %s%n", raceKind.ordinal(), raceKind);
+                for (RaceKind item : RaceKind.values()) {
+                    System.out.printf("%d - %s%n", item.ordinal(), item);
                 }
             }
 
