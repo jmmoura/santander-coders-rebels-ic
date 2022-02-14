@@ -17,6 +17,6 @@ public class Rebel {
     @Min(value = 18, message = "A idade mínima é 18 anos!")
     @Max(value = 60, message = "A idade máxima é 60 anos!")
     private int age;
-
+    @NotNull(message = "Raça inválida!")
     private RaceKind race;
 }

@@ -7,10 +7,13 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
-import santander.coders.rebels.ic.domain.IC;
+import santander.coders.rebels.ic.controller.IC;
 import santander.coders.rebels.ic.domain.Rebel;
 import santander.coders.rebels.ic.enums.RaceKind;
+import santander.coders.rebels.ic.utils.Utils;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -25,29 +28,11 @@ public class App {
 
         boolean wantAddNewAspirant = true;
         while (wantAddNewAspirant) {
-            System.out.println("Informe o nome: ");
-            String name = scanner.nextLine();
+            String name = ic.askName();
+            int age = ic.askAge();
+            RaceKind raceKind = ic.askRaceKind();
 
-            System.out.println("Informe a idade: ");
-            int age = scanner.nextInt();
-
-            int raceKind;
-            do {
-                System.out.println("Informe a raça: ");
-                for (RaceKind item : RaceKind.values()) {
-                    System.out.printf("%d - %s%n", item.ordinal(), item.getDescription());
-                }
-                raceKind = scanner.nextInt();
-
-                boolean invalidEntry = raceKind < 0 || raceKind >= RaceKind.values().length;
-                if (invalidEntry) {
-                    System.err.println("O valor da raça deve estar entre 0 e 2!");
-                } else {
-                    break;
-                }
-            } while (true);
-
-            Rebel rebel = new Rebel(name, age, RaceKind.values()[raceKind]);
+            Rebel rebel = new Rebel(name, age, raceKind);
 
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
@@ -56,7 +41,6 @@ public class App {
             constraintViolations.forEach(x -> System.err.println(x.getMessage()));
 
             if (!constraintViolations.isEmpty()) {
-                scanner.nextLine();
                 continue;
             }
 
@@ -64,9 +48,30 @@ public class App {
 
             System.out.println("Insira S para informar mais um aspirante. Insira qualquer outra letra para encerrar.");
             char addNewAspirant = scanner.next().charAt(0);
-            scanner.nextLine();
 
             wantAddNewAspirant = addNewAspirant == 'S' || addNewAspirant == 's';
+        }
+
+        String printOrder = ic.askPrintOrder();
+
+        List<Rebel> rebelList = ic.getRebels();
+        Rebel[] rebelsArray = rebelList.toArray(new Rebel[rebelList.size()]);
+        Rebel[] rebelArrayOrdered;
+        switch (printOrder) {
+            case "Nome":
+                rebelArrayOrdered = Utils.selectionSortByName(rebelsArray);
+                ic.setRebels(Arrays.asList(rebelArrayOrdered));
+                break;
+            case "Idade":
+                rebelArrayOrdered = Utils.selectionSortByAge(rebelsArray);
+                ic.setRebels(Arrays.asList(rebelArrayOrdered));
+                break;
+            case "Raça":
+                rebelArrayOrdered = Utils.selectionSortByRaceKind(rebelsArray);
+                ic.setRebels(Arrays.asList(rebelArrayOrdered));
+                break;
+            default:
+                break;
         }
 
         ic.printRebelsToConsole();

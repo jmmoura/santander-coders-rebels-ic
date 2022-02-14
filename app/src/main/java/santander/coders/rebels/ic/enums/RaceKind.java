@@ -1,8 +1,8 @@
 package santander.coders.rebels.ic.enums;
 
 public enum RaceKind {
-    HUMAN("Humano"),
     GREE("Gree"),
+    HUMAN("Humano"),
     RAKATA("Rakata");
 
     private String description;
