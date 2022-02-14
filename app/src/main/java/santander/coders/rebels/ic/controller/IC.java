@@ -3,7 +3,6 @@ package santander.coders.rebels.ic.controller;
 import lombok.*;
 import santander.coders.rebels.ic.domain.Rebel;
 import santander.coders.rebels.ic.enums.RaceKind;
-import santander.coders.rebels.ic.exceptions.InvalidOrderOptionException;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -59,22 +58,19 @@ public class IC {
         return null;
     }
 
-    @SneakyThrows
     public String askPrintOrder() {
         String[] options = {"Nome", "Idade", "Raça"};
         System.out.println("Como você deseja ordenar os Rebeldes?");
         try {
-            for (RaceKind item : RaceKind.values()) {
-                System.out.printf("%d - %s%n", item.ordinal(), item.getDescription());
+            for (int i = 0; i < options.length; i++) {
+                System.out.printf("%d - %s%n", i, options[i]);
             }
             int optionIndex = scanner.nextInt();
             scanner.nextLine();
 
-            if(optionIndex < 0 || optionIndex >= options.length) {
-                throw new InvalidOrderOptionException("Erro: opção inválida!");
-            }
-
             return options[optionIndex];
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println("Erro: opção inválida!");
         } catch (Exception e) {
             System.err.println("Erro: a opção deve ser um inteiro válido!");
         }

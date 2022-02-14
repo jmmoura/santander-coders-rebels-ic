@@ -52,7 +52,10 @@ public class App {
             wantAddNewAspirant = addNewAspirant == 'S' || addNewAspirant == 's';
         }
 
-        String printOrder = ic.askPrintOrder();
+        String printOrder;
+        do {
+            printOrder = ic.askPrintOrder();
+        } while (printOrder == null);
 
         List<Rebel> rebelList = ic.getRebels();
         Rebel[] rebelsArray = rebelList.toArray(new Rebel[rebelList.size()]);
@@ -69,8 +72,6 @@ public class App {
             case "Raça":
                 rebelArrayOrdered = Utils.selectionSortByRaceKind(rebelsArray);
                 ic.setRebels(Arrays.asList(rebelArrayOrdered));
-                break;
-            default:
                 break;
         }
 
