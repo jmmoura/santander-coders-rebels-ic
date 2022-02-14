@@ -3,11 +3,12 @@ package santander.coders.rebels.ic.controller;
 import lombok.*;
 import santander.coders.rebels.ic.domain.Rebel;
 import santander.coders.rebels.ic.enums.RaceKind;
+import santander.coders.rebels.ic.utils.Utils;
 import santander.coders.rebels.ic.view.ICView;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Data
@@ -24,7 +25,7 @@ public class IC {
         return new Rebel(name, age, raceKind);
     }
 
-    public String askPrintOrder() {
+    public String askOrderOption() {
         String printOrder;
         do {
             printOrder = icView.askPrintOrder();
@@ -42,9 +43,29 @@ public class IC {
         }
     }
 
+    public void sortRebels(String orderOption) {
+        List<Rebel> rebelList = rebels;
+        Rebel[] rebelsArray = rebelList.toArray(new Rebel[rebelList.size()]);
+        Rebel[] rebelArrayOrdered;
+        switch (orderOption) {
+            case "Nome":
+                rebelArrayOrdered = Utils.selectionSortByName(rebelsArray);
+                rebels = Arrays.asList(rebelArrayOrdered);
+                break;
+            case "Idade":
+                rebelArrayOrdered = Utils.selectionSortByAge(rebelsArray);
+                rebels = Arrays.asList(rebelArrayOrdered);
+                break;
+            case "Raça":
+                rebelArrayOrdered = Utils.selectionSortByRaceKind(rebelsArray);
+                rebels = Arrays.asList(rebelArrayOrdered);
+                break;
+        }
+    }
+
     public void printRebelsToFile() {
         try {
-            @Cleanup PrintWriter writer = new PrintWriter("rebels.txt", "UTF-8");
+            @Cleanup PrintWriter writer = new PrintWriter("rebels.txt", StandardCharsets.UTF_8);
             writer.println("Aliança Rebelde");
 
             if (rebels.size() == 0) {
@@ -58,9 +79,7 @@ public class IC {
                 writer.println("Idade: " + rebel.getAge());
                 writer.println("Raça: " + rebel.getRace().getDescription());
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

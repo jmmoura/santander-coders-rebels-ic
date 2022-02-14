@@ -9,11 +9,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import santander.coders.rebels.ic.controller.IC;
 import santander.coders.rebels.ic.domain.Rebel;
-import santander.coders.rebels.ic.enums.RaceKind;
-import santander.coders.rebels.ic.utils.Utils;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -48,25 +44,8 @@ public class App {
             wantAddNewAspirant = addNewAspirant == 'S' || addNewAspirant == 's';
         }
 
-        String printOrder = ic.askPrintOrder();
-
-        List<Rebel> rebelList = ic.getRebels();
-        Rebel[] rebelsArray = rebelList.toArray(new Rebel[rebelList.size()]);
-        Rebel[] rebelArrayOrdered;
-        switch (printOrder) {
-            case "Nome":
-                rebelArrayOrdered = Utils.selectionSortByName(rebelsArray);
-                ic.setRebels(Arrays.asList(rebelArrayOrdered));
-                break;
-            case "Idade":
-                rebelArrayOrdered = Utils.selectionSortByAge(rebelsArray);
-                ic.setRebels(Arrays.asList(rebelArrayOrdered));
-                break;
-            case "Raça":
-                rebelArrayOrdered = Utils.selectionSortByRaceKind(rebelsArray);
-                ic.setRebels(Arrays.asList(rebelArrayOrdered));
-                break;
-        }
+        String orderOption = ic.askOrderOption();
+        ic.sortRebels(orderOption);
 
         ic.printRebelsToConsole();
         ic.printRebelsToFile();
