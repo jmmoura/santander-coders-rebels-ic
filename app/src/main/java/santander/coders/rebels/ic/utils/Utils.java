@@ -14,8 +14,8 @@ public class Utils {
             }
 
             Rebel temp = array[minIndex];
-            array[minIndex] = array[j];
-            array[j] = temp;
+            array[minIndex] = array[i];
+            array[i] = temp;
         }
 
         return array;
@@ -32,8 +32,8 @@ public class Utils {
             }
 
             Rebel temp = array[minIndex];
-            array[minIndex] = array[j];
-            array[j] = temp;
+            array[minIndex] = array[i];
+            array[i] = temp;
         }
 
         return array;
@@ -50,8 +50,8 @@ public class Utils {
             }
 
             Rebel temp = array[minIndex];
-            array[minIndex] = array[j];
-            array[j] = temp;
+            array[minIndex] = array[i];
+            array[i] = temp;
         }
 
         return array;

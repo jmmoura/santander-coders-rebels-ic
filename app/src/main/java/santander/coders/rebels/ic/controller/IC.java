@@ -82,9 +82,9 @@ public class IC {
         Random generator = new Random();
 
         int acceptIngress = generator.nextInt(2);
-        if (acceptIngress == 1) {
+//        if (acceptIngress == 1) {
             rebels.add(rebel);
-        }
+//        }
     }
 
     public void printRebelsToFile() {
@@ -101,7 +101,7 @@ public class IC {
                 writer.println();
                 writer.println("Nome: " + rebel.getName());
                 writer.println("Idade: " + rebel.getAge());
-                writer.println("Raça: " + rebel.getRace());
+                writer.println("Raça: " + rebel.getRace().getDescription());
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -122,7 +122,7 @@ public class IC {
             System.out.println();
             System.out.println("Nome: " + rebel.getName());
             System.out.println("Idade: " + rebel.getAge());
-            System.out.println("Raça: " + rebel.getRace());
+            System.out.println("Raça: " + rebel.getRace().getDescription());
         }
     }
 }
