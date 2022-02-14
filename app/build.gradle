@@ -25,6 +25,15 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1.1-jre'
+
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-validator
+    implementation 'org.hibernate:hibernate-validator:7.0.2.Final'
+
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-validator-cdi
+    implementation 'org.hibernate:hibernate-validator-cdi:7.0.2.Final'
+
+    // https://mvnrepository.com/artifact/org.glassfish/jakarta.el
+    implementation 'org.glassfish:jakarta.el:4.0.1'
 }
 
 application {

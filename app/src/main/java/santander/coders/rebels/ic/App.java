@@ -3,9 +3,16 @@
  */
 package santander.coders.rebels.ic;
 
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import santander.coders.rebels.ic.domain.IC;
+import santander.coders.rebels.ic.domain.Rebel;
+import santander.coders.rebels.ic.enums.RaceKind;
+
 import java.util.Scanner;
+import java.util.Set;
 
 public class App {
     public static void main(String[] args) {
@@ -28,14 +35,32 @@ public class App {
             do {
                 System.out.println("Informe a raça: ");
                 for (RaceKind item : RaceKind.values()) {
-                    System.out.printf("%d - %s%n", item.ordinal(), item);
+                    System.out.printf("%d - %s%n", item.ordinal(), item.getDescription());
                 }
                 raceKind = scanner.nextInt();
-            } while (raceKind < 0 || raceKind >= RaceKind.values().length);
+
+                boolean invalidEntry = raceKind < 0 || raceKind >= RaceKind.values().length;
+                if (invalidEntry) {
+                    System.err.println("O valor da raça deve estar entre 0 e 2!");
+                } else {
+                    break;
+                }
+            } while (true);
 
             Rebel rebel = new Rebel(name, age, RaceKind.values()[raceKind]);
 
-            ic.addRebel(rebel);
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<Rebel>> constraintViolations = validator.validate(rebel);
+
+            constraintViolations.forEach(x -> System.err.println(x.getMessage()));
+
+            if (!constraintViolations.isEmpty()) {
+                scanner.nextLine();
+                continue;
+            }
+
+            ic.askIngress(rebel);
 
             System.out.println("Insira S para informar mais um aspirante. Insira qualquer outra letra para encerrar.");
             char addNewAspirant = scanner.next().charAt(0);
@@ -44,13 +69,8 @@ public class App {
             wantAddNewAspirant = addNewAspirant == 'S' || addNewAspirant == 's';
         }
 
-        try {
-            ic.printRebels();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        ic.printRebelsToConsole();
+        ic.printRebelsToFile();
 
     }
 }
