@@ -28,11 +28,7 @@ public class App {
 
         boolean wantAddNewAspirant = true;
         while (wantAddNewAspirant) {
-            String name = ic.askName();
-            int age = ic.askAge();
-            RaceKind raceKind = ic.askRaceKind();
-
-            Rebel rebel = new Rebel(name, age, raceKind);
+            Rebel rebel = ic.askNewRebel();
 
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
@@ -52,10 +48,7 @@ public class App {
             wantAddNewAspirant = addNewAspirant == 'S' || addNewAspirant == 's';
         }
 
-        String printOrder;
-        do {
-            printOrder = ic.askPrintOrder();
-        } while (printOrder == null);
+        String printOrder = ic.askPrintOrder();
 
         List<Rebel> rebelList = ic.getRebels();
         Rebel[] rebelsArray = rebelList.toArray(new Rebel[rebelList.size()]);
